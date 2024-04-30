@@ -169,12 +169,12 @@ namespace osu.Framework.Platform
         /// <summary>
         /// Attempts to hide the window, making it invisible and hidden from the taskbar.
         /// </summary>
-        void Hide();
+        void Hide(Taskbar taskbar);
 
         /// <summary>
         /// Attempts to show the window, making it visible.
         /// </summary>
-        void Show();
+        void Show(Taskbar taskbar);
 
         /// <summary>
         /// Attempts to flash the window in order to request the user's attention.

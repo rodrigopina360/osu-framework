@@ -12,6 +12,7 @@ using osu.Framework.Extensions.EnumExtensions;
 using osu.Framework.Extensions.ImageExtensions;
 using osu.Framework.Logging;
 using osu.Framework.Platform.SDL;
+using osu.Framework.Platform.Windows;
 using osu.Framework.Threading;
 using SDL;
 using SixLabors.ImageSharp;
@@ -376,14 +377,18 @@ namespace osu.Framework.Platform
             SDL3.SDL_RaiseWindow(SDLWindowHandle);
         });
 
-        public void Hide() => ScheduleCommand(() =>
+        public void Hide(Taskbar taskbar) => ScheduleCommand(() =>
         {
             SDL3.SDL_HideWindow(SDLWindowHandle);
+
+            taskbar.CreateTaskbarIcon();
         });
 
-        public void Show() => ScheduleCommand(() =>
+        public void Show(Taskbar taskbar) => ScheduleCommand(() =>
         {
             SDL3.SDL_ShowWindow(SDLWindowHandle);
+
+            taskbar.DestroyTaskbarIcon();
         });
 
         public void Flash(bool flashUntilFocused = false) => ScheduleCommand(() =>

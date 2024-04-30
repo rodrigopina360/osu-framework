@@ -96,11 +96,11 @@ namespace osu.Framework.Platform
         {
         }
 
-        public void Hide()
+        public void Hide(Taskbar taskbar)
         {
         }
 
-        public void Show()
+        public void Show(Taskbar taskbar)
         {
         }
 

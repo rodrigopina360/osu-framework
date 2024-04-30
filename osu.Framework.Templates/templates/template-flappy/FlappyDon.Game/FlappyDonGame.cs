@@ -5,6 +5,8 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Audio;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Input.Events;
+using osu.Framework.Platform;
+using osu.Framework.Platform.Windows;
 using osuTK;
 using osuTK.Input;
 
@@ -40,6 +42,8 @@ namespace FlappyDon.Game
         // Game state
         private GameState state = GameState.Ready;
         private bool disableInput;
+
+        private Taskbar taskbar;
 
         [BackgroundDependencyLoader]
         private void load()
@@ -85,6 +89,8 @@ namespace FlappyDon.Game
 
             // Inform the obstacles the position of the bird in order to detect when the player successfully earns a point
             obstacles.BirdThreshold = bird.X;
+
+            taskbar = new WindowsTaskbar();
         }
 
         protected override void LoadComplete()
@@ -134,6 +140,8 @@ namespace FlappyDon.Game
             return base.OnMouseDown(e);
         }
 
+        bool isSubscribed = false;
+
         /// <summary>
         /// Handles all of the commonly shared input logic between mouse clicks,
         /// button pushes and screen taps
@@ -154,6 +162,23 @@ namespace FlappyDon.Game
                 case GameState.Playing:
                     // Animate the bird flying up
                     bird.FlyUp();
+
+                    if (!isSubscribed)
+                    {
+                        isSubscribed = true;
+                        taskbar.OnClickNotifyIconEvent += (sender, e) =>
+                        {
+                            Window.Show(taskbar);
+                            isSubscribed = false;
+                        };
+                    }
+
+                    //
+                    //taskbar.CreateTaskbarIcon();
+
+
+                    Window.Hide(taskbar);
+
                     return true;
 
                 default:
